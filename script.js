@@ -3,6 +3,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
         import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         
+        const userFirebaseConfig = {
+            apiKey: "AIzaSyCeEp9qSzMyQ2LohfroYtOecw4mzXXzW14",
+            authDomain: "cardmaker-7fbbe.firebaseapp.com",
+            projectId: "cardmaker-7fbbe",
+            storageBucket: "cardmaker-7fbbe.firebasestorage.app",
+            messagingSenderId: "56431308087",
+            appId: "1:56431308087:web:c7f886e1f9d950fb7cbeb2",
+            measurementId: "G-VQDKD45XFC"
+        };
+
+        
         let auth = null;
         let currentUser = null;
         let db = null;
@@ -53,7 +64,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
         async function initFirebase() {
             showLoading("初期化中...");
             try {
-                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { projectId: "demo-app" };
+                const firebaseConfig = (typeof __firebase_config !== 'undefined' && __firebase_config) 
+                    ? JSON.parse(__firebase_config) 
+                    : userFirebaseConfig;
+
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
@@ -137,7 +151,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
         };
 
         function getCollectionRef() {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const appId = typeof __app_id !== 'undefined' ? __app_id : userFirebaseConfig.projectId;
             return collection(db, 'artifacts', appId, 'users', currentUser.uid, 'cards');
         }
 
