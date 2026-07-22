@@ -1,0 +1,350 @@
+body {
+            font-family: 'Noto Serif JP', serif;
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        
+        #sidebar {
+            width: 380px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+            overflow-y: auto;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+        }
+        #preview-area {
+            flex: 1;
+            overflow: auto;
+            background: #cbd5e1;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #print-btn-container {
+            position: fixed;
+            top: 24px;
+            right: 32px;
+            z-index: 50;
+        }
+
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        .a4-sheet {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            padding: 26mm 20mm; 
+            display: grid;
+            grid-template-columns: repeat(2, 85mm);
+            grid-auto-rows: 49mm;
+            gap: 0;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        
+        .business-card {
+            width: 85mm;
+            height: 49mm;
+            box-sizing: border-box;
+            border: 0.1mm dashed #cbd5e1; 
+            background: white;
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+
+        
+        .digital-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(0,0,0,0.035) 1px, transparent 0);
+            background-size: 3.5mm 3.5mm;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .digital-accent-circle {
+            position: absolute;
+            bottom: -10mm;
+            right: -10mm;
+            width: 38mm;
+            height: 38mm;
+            border-radius: 50%;
+            border: 0.5mm solid rgba(0,0,0,0.04);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        
+        .card-left {
+            width: 23mm;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4mm 0 3.5mm 0;
+            z-index: 1;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        
+        .card-left::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.12),
+                rgba(255, 255, 255, 0.12) 0.5px,
+                transparent 0.5px,
+                transparent 2.5mm
+            );
+            
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+        }
+        
+        .card-left > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-right {
+            width: 62mm;
+            height: 100%;
+            padding: 3.5mm 4mm 3.5mm 4.5mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 1;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        
+        .card-right::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            
+            background-image: 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='41.57' viewBox='0 0 24 41.57'%3E%3Cpath d='M12 0l12 6.93v13.86L12 27.71 0 20.78V6.93z' fill='none' stroke='%230f172a' stroke-opacity='0.035' stroke-width='1'/%3E%3Cpath d='M0 41.57l12-6.93 12 6.93' fill='none' stroke='%230f172a' stroke-opacity='0.035' stroke-width='1'/%3E%3C/svg%3E"),
+                radial-gradient(circle at 1px 1px, rgba(15,23,42,0.035) 1px, transparent 0);
+            background-size: 10mm 17.32mm, 2.5mm 2.5mm;
+            background-position: 0 0, 1.25mm 1.25mm;
+            
+            -webkit-mask-image: radial-gradient(circle at top right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%);
+            mask-image: radial-gradient(circle at top right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%);
+        }
+        .card-right.has-role::before {
+            background-image: 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='41.57' viewBox='0 0 24 41.57'%3E%3Cpath d='M12 0l12 6.93v13.86L12 27.71 0 20.78V6.93z' fill='none' stroke='%23ffffff' stroke-opacity='0.08' stroke-width='1'/%3E%3Cpath d='M0 41.57l12-6.93 12 6.93' fill='none' stroke='%23ffffff' stroke-opacity='0.08' stroke-width='1'/%3E%3C/svg%3E"),
+                radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0);
+        }
+        
+        
+        .card-right > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        
+        .icon-circle {
+            width: 13mm;
+            height: 13mm;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 6mm;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .ysbc-logo {
+            width: 18mm;
+            height: auto;
+            max-height: 14mm;
+            object-fit: contain;
+            
+            filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+        }
+
+        
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 4.8mm;
+        }
+        .school-info {
+            font-size: 2.3mm;
+            letter-spacing: 0.4px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .role-badge {
+            font-size: 2.2mm;
+            padding: 0.5mm 2.2mm;
+            border-width: 1.2px;
+            border-style: solid;
+            border-radius: 1.5mm;
+            font-weight: 700;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .name-container {
+            margin-top: 1.5mm;
+            margin-bottom: 0.5mm;
+        }
+        .name {
+            font-size: 8.5mm;
+            font-weight: 900;
+            letter-spacing: 2.5px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .spell {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.8mm;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-top: 3.5mm;
+            opacity: 0.8;
+        }
+
+        .digital-line {
+            width: 100%;
+            height: 0.35mm;
+            margin: 1.2mm 0;
+            box-sizing: border-box;
+        }
+
+        .details-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1mm;
+            font-size: 2.5mm;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+        }
+        .detail-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.9mm;
+            width: 12mm;
+            display: inline-block;
+            font-weight: 700;
+            opacity: 0.8;
+        }
+
+        
+        .card-wrapper {
+            position: relative;
+            width: 85mm;
+            height: 49mm;
+            box-sizing: border-box;
+        }
+        .card-remove-btn {
+            position: absolute;
+            top: 2mm;
+            right: 2mm;
+            background: rgba(239, 68, 68, 0.95);
+            color: white;
+            border-radius: 50%;
+            width: 7mm;
+            height: 7mm;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .card-wrapper:hover .card-remove-btn {
+            opacity: 1;
+        }
+        .card-remove-btn:hover {
+            transform: scale(1.1);
+            background: rgb(220, 38, 38);
+        }
+        .empty-slot {
+            width: 85mm;
+            height: 49mm;
+            border: 1px dashed #94a3b8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #94a3b8;
+            font-size: 3.5mm;
+            font-weight: bold;
+            background: rgba(248, 250, 252, 0.5);
+            box-sizing: border-box;
+        }
+
+        
+        @media print {
+            body { 
+                background: white; 
+            }
+            #sidebar, #print-btn-container, .print-hidden, #auth-modal { 
+                display: none !important; 
+            }
+            #preview-area { 
+                padding: 0 !important; 
+                background: white !important; 
+                display: block !important; 
+                overflow: visible !important;
+            }
+            .a4-sheet { 
+                box-shadow: none !important; 
+                margin: 0 !important;
+                padding: 26mm 20mm !important;
+            }
+            .card-remove-btn {
+                display: none !important;
+            }
+            .empty-slot {
+                background: transparent !important;
+                border: 0.1mm dashed #cbd5e1 !important;
+                color: transparent !important; 
+            }
+        }
+
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
